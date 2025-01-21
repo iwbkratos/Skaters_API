@@ -9,6 +9,6 @@ namespace Skaters.Models.Domain
         public Guid ProductId { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public required int Quantity { get; set; } = 1;
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
     }
 }

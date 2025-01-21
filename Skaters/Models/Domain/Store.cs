@@ -9,6 +9,6 @@
         public required string UserId { get; set; }
 
 
-        public List<Product> products { get; set; }
+        public List<Product>? Products { get; set; }
     }
 }

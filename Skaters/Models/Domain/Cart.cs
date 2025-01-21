@@ -10,6 +10,6 @@ namespace Skaters.Models.Domain
         public string Status { get; set; }
         public double Total { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public List<Product> Product { get; set; }
+        public List<Product>? Products { get; set; }
     }
 }
