@@ -69,7 +69,7 @@ namespace Skaters.Repositories.CartRepositories
 
         public async Task<CartDto> getCart(string userId)
         {
-            var cartModelDomain =await _dbContext.Cart.FirstOrDefaultAsync(x=>x.Status=="active");
+            var cartModelDomain =await _dbContext.Cart.FirstOrDefaultAsync(x=>x.UserId == userId && x.Status=="active");
            
             if (cartModelDomain == null)
             {
