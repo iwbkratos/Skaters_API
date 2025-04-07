@@ -1,32 +1,23 @@
-# Base runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-
-# Copy only the .csproj file first for better caching
-COPY ["Skaters.csproj", "./"]
-RUN dotnet restore "Skaters.csproj"
-
-# Copy the rest of the project files
+COPY ["DotNet8.ScalarWebApi.csproj", "./"]
+RUN dotnet restore "DotNet8.ScalarWebApi.csproj"
 COPY . .
+WORKDIR "/src/"
+RUN dotnet build "DotNet8.ScalarWebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Build the project
-RUN dotnet build "Skaters.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
-# Publish stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Skaters.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "DotNet8.ScalarWebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Final runtime image
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
-ENTRYPOINT ["dotnet", "Skaters.dll"]
+ENTRYPOINT ["dotnet", "DotNet8.ScalarWebApi.dll"]
