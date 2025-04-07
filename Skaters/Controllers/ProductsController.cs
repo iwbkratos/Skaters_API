@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Skaters.CustomActionFilters;
 using Skaters.Domain.Model;
+using Skaters.Models.CustomClass;
 using Skaters.Models.DTO.ProductDTOs;
 using Skaters.Repositories.ProductRepositories;
 using System.Security.Claims;
@@ -53,8 +54,7 @@ namespace Skaters.Controllers
 
 
         [HttpGet]
-        [Route("{productid:Guid}")]
-       
+        [Route("{productid:Guid}")]       
         public async Task<IActionResult> GetProduct([FromRoute] Guid productid)
         {
            var productModelDomain=  await productRepository.getAsync(productid);
@@ -70,13 +70,13 @@ namespace Skaters.Controllers
         {
             string userId = GetUserId();
             var productModelDomain = mapper.Map<Product>(addProductRequestDto);
-               productModelDomain= await productRepository.CreateAsync(productModelDomain,userId);
+                productModelDomain= await productRepository.CreateAsync(productModelDomain,userId);
             if (productModelDomain == null)
             {
                 BadRequest();
             }
             var productDto = mapper.Map<ProductDto>(productModelDomain);
-            return Ok(productDto);
+            return Ok(new HttpResponse<ProductDto>(StatusCodes.Status200OK,"item added to cart",productDto));
         }
 
         [HttpPut]
@@ -107,6 +107,13 @@ namespace Skaters.Controllers
             return Ok(productDto);
         }
 
+        [HttpGet("categorycount")]
+       // [Authorize]
+        public async Task<IActionResult> GetProductOfCategoryCount([FromQuery]string category)
+        {
+            int count = await productRepository.CategoryCount(category);
+            return Ok(count);
+        }
         private string GetUserId()
         {
             var identity = User.FindFirstValue(ClaimTypes.UserData);

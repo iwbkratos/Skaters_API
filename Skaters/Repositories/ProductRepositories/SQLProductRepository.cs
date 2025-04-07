@@ -84,6 +84,10 @@ namespace Skaters.Repositories.ProductRepositories
             return ProductModelDomain;
         }
 
-
+        public async Task<int> CategoryCount(string category)
+        {
+           int count =dbContext.Products.Where(p => p.Category == category).Count();
+            return count;
+        }
     }
 }

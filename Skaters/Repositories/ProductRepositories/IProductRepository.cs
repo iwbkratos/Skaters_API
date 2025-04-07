@@ -10,5 +10,6 @@ namespace Skaters.Repositories.ProductRepositories
         public Task<Product> CreateAsync(Product product,string userId);
         public Task<Product> UpdateAsync(Guid id, Product product);
         public Task<Product?> DeleteAsync(Guid id);
+        Task<int> CategoryCount(string category);
     }
 }

@@ -69,7 +69,7 @@ namespace Skaters.Controllers
         {
             try
             {
-                var cartProduct = await _cartProductRepository.DeleteAsync(id);
+                var cartProduct = await _cartProductRepository.DeleteAsync(id,GetUserId());
                 if (cartProduct == null) BadRequest();
                 return Ok(cartProduct);
             }

@@ -10,7 +10,7 @@ namespace Skaters.Repositories.CartProductRepositories
         public Task<List<CartProductDto>> AddAsync(List<AddCartProductDto> addRequest,string userId);
         public Task<List<CartProduct>> GetAllAsync();
         public Task<CartProductDto?> GetAsync(Guid id);
-        public  Task<CartProduct> DeleteAsync(Guid id);
+        public  Task<CartProduct> DeleteAsync(Guid id, string userId);
         public Task<List<Product>> GetProductsByCart(Guid id);
         public Task<List<OrdersResponse>> GetCartproductsByUser(string userId,string? status);
         public Task<OrdersResponse> GetCartproductsByCartId(Guid id);
